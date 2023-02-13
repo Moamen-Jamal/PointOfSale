@@ -1,0 +1,77 @@
+<div class="container my-5">
+    <h1 class="mb-3">Categories</h1>
+    <div class="input-group">
+        <div class="form-outline">
+          <input type="search" id="form1" placeholder="search for a category" class="form-control"
+          [(ngModel)]="CategoryTitle" name="search" (keydown.enter)="searchByTitle()" />
+        </div>
+        <button type="button" class="btn btn-outline-primary" (click)="searchByTitle()">
+            <i class="bi bi-search"></i>
+        </button>
+        <span style="margin-top: 10px; margin-left:20px; cursor:pointer; border-color: #bbc3cd;" *ngIf="!isDescending" (click)="DescendingData(true)">Asc <i class="bi bi-arrow-down"></i></span>
+        <span style="margin-top: 10px; margin-left:20px; cursor:pointer; border-color: #bbc3cd;" *ngIf="isDescending" (click)="DescendingData(false)">Desc <i class="bi bi-arrow-up"></i></span>
+      </div>
+    <!-- <div class="input-group">
+        <div class="form-outline">
+          <input type="search" class="form-control rounded" placeholder="Search for category" aria-label="Search" aria-describedby="search-addon"  
+          [(ngModel)]="CategoryTitle" name="search" (keydown.enter)="searchByTitle()"/>
+        </div>
+        <button type="button" class="btn btn-outline-primary" (click)="searchByTitle()">search
+        </button>
+      </div> -->
+    <!-- <form class="form-inline">
+                
+
+        <input class="form-control " style="text-align: left;width: 60%;" type="search"
+            placeholder="Search for Branch" aria-label="Search"
+            [(ngModel)]="CategoryTitle" name="search" (keydown.enter)="searchByTitle()">
+        
+
+    </form> -->
+    <table *ngIf="options.totalItems > 0 && Categories.length > 0" class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let category of Categories|paginate : options;">
+                <td>{{category.id}}</td>
+                <td>{{category.title}}</td>
+                <td>{{category.from | date}}</td>
+                <td>{{category.to | date}}</td>
+                <td>
+                    <ul class="list-inline m-0">
+                        <li class="list-inline-item">
+                            <button [routerLink]="['/editCategory',category.id]" class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="bi bi-pencil"></i></button>
+                        </li>
+                        <li class="list-inline-item">
+                            <button (click)="Delete(category.id)" class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="bi bi-trash"></i></button>
+                        </li>
+                    </ul>
+                    <!-- <button class="btn btn-light" >Edit <i class="bi bi-pencil"></i> </button>  <button class="btn btn-danger" ><i class="bi bi-trash"></i></button> -->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row" style=" text-align: center;position: absolute;left: 30%;">
+  
+        <div style=" text-align: center;">
+            
+            <div class="col-xs-12 text-center margin-top-15" *ngIf="options.totalItems>=options.itemsPerPage && Categories.length > 0">
+                <pagination-controls (pageChange)="getNextPrevData($event)" id='pagination'
+                    autohide="true" previousLabel="Previous" nextLabel="Next">
+                </pagination-controls>
+            </div>
+            <div class="col-xs-12 text-center margin-top-15" *ngIf="options.totalItems==0 && Categories.length == 0">
+                No Data Found
+            </div>
+        
+        </div>
+    </div>
+    <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+</div>

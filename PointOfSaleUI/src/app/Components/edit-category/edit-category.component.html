@@ -1,0 +1,62 @@
+<div class="container my-5">
+  <h1 class="mb-3">Edit Category
+  </h1>
+  <div class="row">
+    <div class="col-6">
+      <form #form="ngForm" name="form" (ngSubmit)="OnUpdate()">
+        <!-- <div class="mb-3">
+          <label for="ID" class="form-label">ID</label>
+          <input [(ngModel)]="editCategory.id" type="text" class="form-control" name="ID" id="ID" readonly>
+        </div> -->
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input [(ngModel)]="editCategory.title" type="text" class="form-control" id="title" name="title" ngModel
+            #title="ngModel" required maxlength="200"
+            pattern="^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FFa-zA-Z]+[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FFa-zA-Z-_ ]*$">
+          <div for="Title" style="color:red ; " *ngIf="(title.touched || title.dirty) && title.invalid">
+            <div class="mt-1" for="Title" style="color:red ; " *ngIf="title.errors?.['required']">Enter the Title</div>
+            <div class="mt-1" for="Title" style="color:red ; " *ngIf="title.errors?.['pattern']"> Enter characters only
+            </div>
+          </div>
+        </div>
+    
+        <div class="mb-3">
+          <label for="From" class="form-label">From</label>
+          <div>
+            <mat-form-field appearance="fill">
+              <input matInput id="from" name="from" ngModel #from="ngModel" (dateChange)="changeFromDate($event)"
+                [(ngModel)]="editCategory.from" [min]="editCategory.from" [matDatepicker]="dp3" (focus)="dp3.open()"
+                (keydown)="disableDatePicker()" [required]="true">
+              <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+              <mat-datepicker (closed)="onClosed(from)" [startAt]="editCategory.from" #dp3 disabled="false"></mat-datepicker>
+            </mat-form-field>
+    
+          </div>
+          <div for="From" style="color:red ; " *ngIf="(from.touched || from.dirty) && from.invalid">
+            <div class="mt-1" for="From" style="color:red ; " *ngIf="from.errors?.['required']">Enter From Date</div>
+    
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="To" class="form-label">To</label>
+          <div>
+            <mat-form-field appearance="fill">
+              <input matInput id="to" name="to" ngModel #to="ngModel" (dateChange)="changeToDate($event)"
+                [(ngModel)]="editCategory.to" [min]="tomorrowDate" [matDatepicker]="dp4" (focus)="dp3.open()" [required]="true"
+                (keydown)="disableDatePicker()">
+              <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
+              <mat-datepicker (closed)="onClosed(to)" [startAt]="tomorrowDate" #dp4 disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div for="To" style="color:red ; " *ngIf="(to.touched || to.dirty) && from.invalid">
+            <div class="mt-1" for="To" style="color:red ; " *ngIf="to.errors?.['required']">Enter To Date</div>
+    
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+      </form>
+    </div>
+  </div>
+  
+  <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+</div>
